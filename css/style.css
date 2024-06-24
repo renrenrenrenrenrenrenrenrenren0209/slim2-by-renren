@@ -1,0 +1,38 @@
+.taitol{
+    padding: 0px 2px 2px 7px;
+    float: left;
+    font-size: 29px;
+    text-align: center;
+    font-family:sans-serif;
+}
+.header{
+    height: 31px; 
+}
+li{
+    list-style:none;
+}
+.header-list li{
+    padding: 7px 0px 2px 1px;
+    font-size: 13px;
+    color:#ffd700;
+    text-align: center;
+}
+li span{
+ font-weight:bold;
+ color: #ff0000;
+}
+main li{
+    font-size:16px;
+}
+main h3{
+    font-size:20px;
+}
+body{
+    font-family:sans-serif;
+}
+.cuuhaku{
+    color: fff;
+} 
+p {
+    color: #ffffff;
+}
