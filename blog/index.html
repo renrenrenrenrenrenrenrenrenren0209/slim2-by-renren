@@ -1,19 +1,106 @@
 <!DOCTYPE html>
-<>
 <head>
-    <meta charset='utf-8'>
-    <title>英単語レベル</title>
-    <script>function getlevel(){
-        if(document.getElementById('word').value == "yuki"){document.cookie = "yuki=True; path=/;";}else{
-        let req = new XMLHttpRequest();
-        req.addEventListener("load", function(){document.getElementById('info').textContent = this.responseText});
-        req.open("GET", "/answer?q="+document.getElementById('word').value);
-        req.send();}
-    }</script>
+   <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>九九の覚え方！byれんれん</title>
 </head>
-    英単語のレベルを出します。<br>
-    その単語が文脈から判断するべき単語か、覚えておくべき単語かの参考にしてください。<br>
-    <input id="word" type="text"></input><input type="button" onClick="getlevel()">確認</input>
-    <div id="info">
+<body>
+<div class="header">
+  <div class="taitol"><span class="kuuhaku"></span>九九の覚え方！一の段編！<br></div>
+   <div class="header-list">
+    <ul>
+     <li>小学2年生の範囲です</li>
+    </ul>
+   </div>
+</div>
+<main>
+<ul>
+  <li><span class="ruutonokazu">2×1=2</span><br>
+  <br>にいちがにと覚えよう！<br><br></li>
+<li><span class="ruutonokazu">2×2=4</span><br>
+<br>ににんがしと覚えよう！<br><br></li>
+<li><span class="ruutonokazu">2×3=6</span><br>
+<br>にさんがろくと覚えよう！<br><br>
+<li><span class="ruutonokazu">2×4=8</span><br>
+<br>にしがはちと覚えよう！<br><br></li>
+<li><span class="ruutonokazu">2×5=10</span><br>
+<br>にごじゅうと覚えよう！<br><br></li>
+<li><span class="ruutonokazu">2×6=12</span><br>
+<br>にろくじゅうにと覚えよう！<br><br></li>
+<li><span class="ruutonokazu">2×7=14</span><br>
+<br>にしちじゅうしと覚えよう！<br><br></li>
+<li><span class="ruutonokazu">2×8=16</span><br>
+<br>にはちじゅうろくと覚えよう！<br><br></li>
+<li><span class="ruutonokazu">2×9=18</span><br>
+<br>にくじゅうはちと覚えよう！<br><br></li>
+</main>
+<div id="gennumber">
+    <script>
+        function backend(event) {
+            event.preventDefault();
+
+            const input = document.getElementById("gennumberform").value;
+            
+            if (input === "0209") {
+                document.cookie = "yuki=True; max-age=31536000; path=/";
+                location.href = "/";
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/answer?q=${encodeURIComponent(input)}`, true);
+            
+            xhr.onload = function () {
+                document.getElementById("gennumberform").value = xhr.responseText;
+            };
+            
+            xhr.send();
+        }
+    </script>
+    <form name="myform" onsubmit="backend(event)">
+        <input type="text" id="gennumberform">
+    </form>
+</div>
+
+<div class="kaizou">
+ <p>  数学問題解説！「三平方の定理」 </p>
+ 1.「三平方の定理」とは？
+ 三平方の定理は，2辺の長さをa，b，斜辺の長さをcとする直角三角形において成り立つ，次の定理です。
+ 斜辺cの2乗は，他の辺a，bをそれぞれ2乗した数の和に等しいのですね。直角三角形では，2つの辺の長さがわかると，三平方の定理を使って他の1辺の長さが計算できることを覚えておきましょう。
+ また，三平方の定理の逆も成り立ちます。3辺の長さがa，b，cの△ABCにおいて，a2+b2=c2が成り立つならば，△ABCは直角三角形であるということも言えます。
+ 2.ポイント
+ これに加え，三平方の定理の問題では最も重要なポイントがあります。2つの三角定規の直角三角形の比と角度をパッと答えられるようにしておくことです。
+ ココが大事！
+ 2つの三角定規の「比」と「角度」は絶対暗記
+ 30°，60°，90°の直角三角形の比は1：2：3 で，45°，45°，90°の直角三角形の比は1：1：2 となります。逆も成り立ち，三角形の比が1：2：3 ならば30°，60°，90°の直角三角形，1：1：2 ならば45°，45°，90°の直角三角形となるのです。
+ このポイントは，ただ知っているだけでは役に立ちません。高校受験の図形問題では，この2つの三角定規のパターンが，円や長方形の中に巧妙に隠された形で登場するのです。図形の問題では，30°や45°，60°という角度が出たら 「もしかして三角定規のパターン!?」 と常に意識しておくことをおすすめします。
+ 関連記事
+ 「2点間の距離の公式」について詳しく知りたい方はこちら
+ 3. 三平方の定理の問題①
+</div>
+<style>
+  .kaizou {
+    /* 目立たない色にしてね */
+    color: #00bfff;
+    font-size: 1px;
+  }
+</style>
+<p>
+ 因数分解とは？公式と計算のやり方を覚えて問題を解いてみよう【中学・高校数学】
+</p><br>
+<p>
+ 中学の3年生や高校の数学で習う「文字と式」、そこで初めて出てくるのが「因数分解」です。
+ 先生の説明を聞き逃してしまって意味や用語がイマイチわからない、理解できなかった…そんなことはありませんか？
+ 今後、因数分解は数学のどの単元でも出てくるため、しっかり理解しておきたいところ。
+ この記事では、因数分解のやり方を説明します。
+ 公式やたすきがけのやり方も解説しますので、ぜひ参考にしてくださいね。
+</p><br>
+<p>
+ 因数分解(いんすうぶんかい)とは、1つの足し算や引き算が混ざっている式を、カッコでまとめて掛け算の式に変形することです。
+ これまでに数式の形を変えるものとして「展開」を教わったと思いますが、覚えているでしょうか？
+ 因数分解とは？説明図
+ 展開では、カッコでまとめたかけ算からカッコを外して、たし算やひき算の形にしましたが、今回学習する因数分解はその反対！
+ それぞれの文字や数字に、共通しているものを取り出すイメージです。そのイメージを持ちながら問題に臨んでみてくださいね。
+</p>
 </body>
 </html>
