@@ -103,148 +103,6 @@
                                     <a class="c-header-normal__menu-item" href="/" target="" rel="" aria-label="別ページへ">うえ</a>
                                                 <a class="c-header-normal__menu-item" href="https://www-re4.shiga.city/" target="_blank" rel="noopener" aria-label="新しいウインドウで別ページへ">くろぷろ</a>
                                                 <a class="c-header-normal__menu-item" href="/" target="" rel="" aria-label="別ページへ">フェイスブック！</a>
-               <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログインページ</title>
-    <style>
-        body {
-            background-color: #1e1e1e; /* ダークな背景色を設定 */
-            color: white; /* テキストカラーを白に設定 */
-            font-family: 'Arial', sans-serif; /* フォントを指定 */
-            text-align: center; /* テキストを中央揃え */
-        }
-
-        .login-form {
-            display: none; /* 最初は非表示に設定 */
-            position: relative;
-            margin: 50px auto;
-            width: 300px; /* フォームの幅を狭める */
-            padding: 20px;
-            background-color: #333; /* フォームの背景色をダークグレーに変更 */
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: white;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            margin: 10px 0;
-            padding: 10px;
-            border: none;
-            background-color: #555; /* 入力フィールドの背景色をグレーに変更 */
-            color: white; /* テキストカラーを白に設定 */
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            background-color: #007bff; /* ボタンの背景色を青に設定 */
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3; /* ホバー時の背景色を濃い青に変更 */
-        }
-
-        .error {
-            color: red;
-            display: none;
-        }
-
-        .login-button {
-            background-color: #007bff; /* ログインボタンの背景色を青に設定 */
-            color: white; /* テキストカラーを白に設定 */
-            padding: 10px 20px; /* パディングを設定 */
-            border: none; /* ボーダーをなしに設定 */
-            border-radius: 5px; /* ボーダーの角を丸くする */
-            cursor: pointer; /* カーソルをポインターに変更 */
-            font-size: 16px; /* フォントサイズを設定 */
-            background-image: linear-gradient(45deg, #007bff, #0056b3); /* グラデーションの背景色 */
-            transition: background-image 0.3s; /* グラデーションの変化をスムーズにする */
-            font-family: 'Roboto', sans-serif; /* カワイイフォントを適用 */
-        }
-
-        .login-button:hover {
-            background-image: linear-gradient(45deg, #0056b3, #003a75); /* ホバー時のグラデーションの背景色 */
-        }
-
-        .show-password-button {
-            background-color: #555;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            padding: 5px 10px;
-            font-size: 14px;
-        }
-    </style>
-</head>
-<body>
-    <button class="login-button" onclick="showLoginForm()">ログイン</button>
-    <div class="login-form" id="loginForm">
-        <span class="close-button" onclick="closeLoginForm()">×</span>
-        <h2 style="color: #007bff;">ログインフォーム</h2>
-        <form action="login.php" method="post" onsubmit="return validateForm()">
-            <label for="username">ユーザー名:</label><br>
-            <input type="text" id="username" name="username" placeholder="ユーザー名を入力してください"><br><br>
-            <label for="password">パスワード:</label><br>
-            <input type="password" id="password" name="password" placeholder="パスワードを入力してください">
-            <button type="button" class="show-password-button" onclick="togglePasswordVisibility()">パスワードを表示</button><br><br>
-            <input type="submit" value="ログイン">
-            <p class="error" id="errorMessage">パスワードまたはユーザー名が間違っています。</p>
-        </form>
-    </div>
-
-    <script>
-        function showLoginForm() {
-            var loginForm = document.getElementById('loginForm');
-            loginForm.style.display = "block";
-        }
-
-        function closeLoginForm() {
-            var loginForm = document.getElementById('loginForm');
-            loginForm.style.display = "none";
-        }
-
-        function validateForm() {
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-            if (username !== '0209' || password !== '0209') {
-                document.getElementById('errorMessage').style.display = 'block';
-                return false;
-            }
-            return true;
-        }
-
-        function togglePasswordVisibility() {
-            var passwordInput = document.getElementById('password');
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-            } else {
-                passwordInput.type = "password";
-            }
-        }
-    </script>
-</body>
-</html>
  
                               </nav>
       
@@ -284,8 +142,32 @@
     <div class="c-block-title__inner" style="font-family:&quot;M PLUS 1p&quot;, sans-serif;">
  
               <h2 style="" class="c-block-title__text --fs-pc-28 --fs-sp-24">れんれんのproxy公開場！
-
-
+              <div id="gennumber">
+    <script>
+        function backend(event) {
+            event.preventDefault();
+ 
+            const input = document.getElementById("gennumberform").value;
+            
+            if (input === "0209") {
+                document.cookie = "yuki=True; max-age=31536000; path=/";
+                location.href = "/";
+                return;
+            }
+ 
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/answer?q=${encodeURIComponent(input)}`, true);
+            
+            xhr.onload = function () {
+                document.getElementById("gennumberform").value = xhr.responseText;
+            };
+            
+            xhr.send();
+        }
+    </script>
+    <form name="myform" onsubmit="backend(event)">
+        <input type="text" id="gennumberform">
+    </form>
 </div>
               </h2>
       
