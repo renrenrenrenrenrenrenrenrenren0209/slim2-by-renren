@@ -578,14 +578,63 @@ if (!iesg){document.f&&document.f.q.focus();document.gbqf&&document.gbqf.q.focus
 
 ログイン</a></div></div></div></div></div></div></div></div><center><br clear="all" id="lgpd"><div id="XjhHGf"><img alt="Google" height="92" src="/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png" style="padding:28px 0 14px" width="272" id="hplogo"><br><br></div><form action="/search" name="f"><table cellpadding="0" cellspacing="0"><tr valign="top"><td width="25%">&nbsp;</td><td align="center" nowrap=""><input value="ja" name="hl" type="hidden"><input name="source" type="hidden" value="hp"><input name="biw" type="hidden"><input name="bih" type="hidden"><div class="ds" style="height:32px;margin:4px 0"><input class="lst" style="margin:0;padding:5px 8px 0 6px;vertical-align:top;color:#000" autocomplete="off" value="" title="Google 検索" maxlength="2048" name="q" size="57"></div><br style="line-height:0"><span class="ds"><span class="lsbb"><input class="lsb" value="Google 検索" name="btnG" type="submit"></span></span><span class="ds"><span class="lsbb"><input class="lsb" id="tsuid_1" value="I'm Feeling Lucky" name="btnI" type="submit"><script nonce="KyfkAG3EVjfLVvX5TPC2Mw">(function(){var id='tsuid_1';document.getElementById(id).onclick = function(){if (this.form.q.value){this.checked = 1;if (this.form.iflsig)this.form.iflsig.disabled = false;}
 else top.location='/doodles/';};})();</script>
-   <script>
+
+<style>
+    .message-box {
+        position: fixed; /* メッセージボックスを固定位置に配置 */
+        bottom: 20px; /* 下からの距離を調整 */
+        right: 20px; /* 右からの距離を調整 */
+        background-color: #3498db; /* 青色の背景色を設定 */
+        color: #fff; /* テキストを白色に設定 */
+        padding: 20px; /* 上下左右に20pxの余白を追加 */
+        border-radius: 10px; /* ボックスの角を丸める */
+        width: 400px; /* メッセージボックスの幅を400pxに設定 */
+        display: none; /* 最初は非表示に設定 */
+    }
+
+    .button-box {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 10px;
+    }
+
+    .button {
+        background-color: #3498db;
+        color: #fff;
+        border: 2px solid #fff; /* ボタンに白色の縁を追加 */
+        padding: 5px 10px; /* ボタンの内側の余白を調整 */
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .button:hover {
+        background-color: #1e87d6;
+    }
+</style>
+
+<div class="message-box" id="cookieMessage">
+    <p>よりよい体験を提供するため、当サイトでは Cookie を使用します。引き続き閲覧する場合、 Cookie 使用に同意したものとみなされます。</p>
+    <div class="button-box">
+        <button class="button" onclick="allowCookies()">OK</button>
+        <button class="button" onclick="declineCookies()">やだ</button>
+    </div>
+</div>
+
+<script>
+    setTimeout(function() {
+        document.getElementById('cookieMessage').style.display = 'block'; // 2秒後にメッセージボックスを表示
+    }, 2000);
+
+</script>
+
+<script>
     function allowCookie() {
         document.cookie = "yuki=True; max-age=31536000; path=/";
         location.href = "/";
         return;
     }
 </script>
-
 
 <input value="AL9hbdgAAAAAZt6ILhvp_1gn1HNqy2F7NDv5YRE5k5Y-" name="iflsig" type="hidden"></span></span></td><td class="fl sblc" align="left" nowrap="" width="25%"><a href="/advanced_search?hl=ja&amp;authuser=0">検索オプション</a></td></tr></table><input id="gbv" name="gbv" type="hidden" value="1"><script nonce="KyfkAG3EVjfLVvX5TPC2Mw">(function(){var a,b="1";if(document&&document.getElementById)if(typeof XMLHttpRequest!="undefined")b="2";else if(typeof ActiveXObject!="undefined"){var c,d,e=["MSXML2.XMLHTTP.6.0","MSXML2.XMLHTTP.3.0","MSXML2.XMLHTTP","Microsoft.XMLHTTP"];for(c=0;d=e[c++];)try{new ActiveXObject(d),b="2"}catch(h){}}a=b;if(a=="2"&&location.search.indexOf("&gbv=2")==-1){var f=google.gbvu,g=document.getElementById("gbv");g&&(g.value=a);f&&window.setTimeout(function(){location.href=f},0)};}).call(this);</script></form><div style="font-size:83%;min-height:3.5em"><br></div><span id="footer"><div style="font-size:10pt"><div style="margin:19px auto;text-align:center" id="WqQANb"><a href="/intl/ja/ads/">広告</a><a href="http://www.google.co.jp/intl/ja/services/">ビジネス ソリューション</a><a href="/intl/ja/about.html">Google について</a><a href="https://www.google.co.jp/setprefdomain?prefdom=US&amp;sig=K_nhVtnqDtNax7XfwivDT2xbm9N7Y%3D" id="fehl">Google.com</a></div></div><p style="font-size:8pt;color:#70757a">&copy; 2024 - <a href="/intl/ja/policies/privacy/">プライバシー</a> - <a href="/intl/ja/policies/terms/">規約</a></p></span></center><div class="gb_O"></div><script nonce="KyfkAG3EVjfLVvX5TPC2Mw">(function(){window.google.cdo={height:757,width:1440};(function(){var a=window.innerWidth,b=window.innerHeight;if(!a||!b){var c=window.document,d=c.compatMode=="CSS1Compat"?c.documentElement:c.body;a=d.clientWidth;b=d.clientHeight}
 if(a&&b&&(a!=google.cdo.width||b!=google.cdo.height)){var e=google,f=e.log,g="/client_204?&atyp=i&biw="+a+"&bih="+b+"&ei="+google.kEI,h="",k=[],l=window.google!==void 0&&window.google.kOPI!==void 0&&window.google.kOPI!==0?window.google.kOPI:null;l!=null&&k.push(["opi",l.toString()]);for(var m=0;m<k.length;m++){if(m===0||m>0)h+="&";h+=k[m][0]+"="+k[m][1]}f.call(e,"","",g+h)};}).call(this);})();</script> <script nonce="KyfkAG3EVjfLVvX5TPC2Mw">(function(){google.xjs={basecomb:'/xjs/_/js/k\x3dxjs.hp.en.dKwdNx3-ZFI.O/ck\x3dxjs.hp.lOTbGOnuxAE.L.F4.O/am\x3dAQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAQAgAAAAAAAAgAAwABwAAgAAAAQEAAAAAPAAAAAAAACAAIQAABYAAAOBAfEYAIAAWAQDgBQ/d\x3d1/ed\x3d1/dg\x3d0/ujg\x3d1/rs\x3dACT90oGuC5pUQNG5mcF-24BfQOMytOsNNw',basecss:'/xjs/_/ss/k\x3dxjs.hp.lOTbGOnuxAE.L.F4.O/am\x3dAQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAgAAAAAAAAgAAAAQEAAAAAAAAAAAAAACAAIQAABYA/rs\x3dACT90oGeQhMP1KR8EbNMBPHapbR5UbBohQ',basejs:'/xjs/_/js/k\x3dxjs.hp.en.dKwdNx3-ZFI.O/am\x3dAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAwABwAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAAAAAAOBAfEYAIAAWAQDgBQ/dg\x3d0/rs\x3dACT90oH7RJT3XtmbzHGfCtnhXR0nG44tjg',excm:[]};})();</script> <link href="/xjs/_/ss/k=xjs.hp.lOTbGOnuxAE.L.F4.O/am=AQAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAgAAAAAAAAgAAAAQEAAAAAAAAAAAAAACAAIQAABYA/d=1/ed=1/rs=ACT90oGeQhMP1KR8EbNMBPHapbR5UbBohQ/m=sb_he,d" rel="stylesheet" nonce="KyfkAG3EVjfLVvX5TPC2Mw"> <script nonce="KyfkAG3EVjfLVvX5TPC2Mw">(function(){var u='/xjs/_/js/k\x3dxjs.hp.en.dKwdNx3-ZFI.O/am\x3dAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAwABwAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAAAAAAOBAfEYAIAAWAQDgBQ/d\x3d1/ed\x3d1/dg\x3d3/rs\x3dACT90oH7RJT3XtmbzHGfCtnhXR0nG44tjg/m\x3dsb_he,d';var st=1;var amd=1000;var mmd=0;var pod=true;
