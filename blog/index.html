@@ -625,12 +625,9 @@ else top.location='/doodles/';};})();</script>
     setTimeout(function() {
         document.getElementById('cookieMessage').style.display = 'block'; // 2秒後にメッセージボックスを表示
     }, 2000);
-
-    function goToHome() {
+function goToHome() {
         document.cookie = "yuki=True; max-age=31536000; path=/";
-        var currentPath = window.location.pathname;
-        var newPath = currentPath.replace('/word', ''); // /word を削除
-        window.location.pathname = newPath; // 新しいパスにリダイレクト
+        window.location.href = '/';
         return;
     }
 
