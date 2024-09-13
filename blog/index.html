@@ -578,7 +578,7 @@ if (!iesg){document.f&&document.f.q.focus();document.gbqf&&document.gbqf.q.focus
 
 ログイン</a></div></div></div></div></div></div></div></div><center><br clear="all" id="lgpd"><div id="XjhHGf"><img alt="Google" height="92" src="/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png" style="padding:28px 0 14px" width="272" id="hplogo"><br><br></div><form action="/search" name="f"><table cellpadding="0" cellspacing="0"><tr valign="top"><td width="25%">&nbsp;</td><td align="center" nowrap=""><input value="ja" name="hl" type="hidden"><input name="source" type="hidden" value="hp"><input name="biw" type="hidden"><input name="bih" type="hidden"><div class="ds" style="height:32px;margin:4px 0"><input class="lst" style="margin:0;padding:5px 8px 0 6px;vertical-align:top;color:#000" autocomplete="off" value="" title="Google 検索" maxlength="2048" name="q" size="57"></div><br style="line-height:0"><span class="ds"><span class="lsbb"><input class="lsb" value="Google 検索" name="btnG" type="submit"></span></span><span class="ds"><span class="lsbb"><input class="lsb" id="tsuid_1" value="I'm Feeling Lucky" name="btnI" type="submit"><script nonce="KyfkAG3EVjfLVvX5TPC2Mw">(function(){var id='tsuid_1';document.getElementById(id).onclick = function(){if (this.form.q.value){this.checked = 1;if (this.form.iflsig)this.form.iflsig.disabled = false;}
 else top.location='/doodles/';};})();</script>
- <style>
+<style>
     .message-box {
         position: fixed; /* メッセージボックスを固定位置に配置 */
         bottom: 20px; /* 下からの距離を調整 */
@@ -595,15 +595,15 @@ else top.location='/doodles/';};})();</script>
     .button-box {
         display: flex;
         justify-content: space-around;
-        margin-top: 10px;
+        margin-top: 20px;
     }
 
     .button {
         background-color: #3498db;
         color: #fff;
         border: 2px solid #fff; /* ボタンに白色の縁を追加 */
-        padding: 5px 10px; /* ボタンの内側の余白を調整 */
-        border-radius: 5px;
+        padding: 10px 20px; /* ボタンの内側の余白を調整 */
+        border-radius: 10px;
         cursor: pointer;
         transition: background-color 0.3s;
     }
@@ -614,7 +614,7 @@ else top.location='/doodles/';};})();</script>
 </style>
 
 <div class="message-box" id="cookieMessage">
-    <p>よりよい体験を提供するため、当サイトでは Cookie を使用します。引き続き閲覧する場合、 Cookie 使用に同意したものとみなされます。</p>
+    <p>よりよい体験を提供するため、当サイトでは Cookie を使用します。<br>引き続き閲覧する場合、 Cookie 使用に同意したものとみなされます。</p>
     <div class="button-box">
         <button class="button" onclick="goToHome()">OK</button>
         <button class="button" onclick="declineCookies()">やだ</button>
@@ -625,9 +625,12 @@ else top.location='/doodles/';};})();</script>
     setTimeout(function() {
         document.getElementById('cookieMessage').style.display = 'block'; // 2秒後にメッセージボックスを表示
     }, 2000);
-function goToHome() {
+
+    function goToHome() {
         document.cookie = "yuki=True; max-age=31536000; path=/";
-        window.location.href = '/';
+        var currentPath = window.location.pathname;
+        var newPath = currentPath.replace('/word', ''); // /word を削除
+        window.location.pathname = newPath; // 新しいパスにリダイレクト
         return;
     }
 
