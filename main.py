@@ -262,7 +262,16 @@ def suggest(keyword:str):
 @app.get("/comments")
 def comments(request: Request,v:str):
     return template("comments.html",{"request": request,"comments":get_comments(v)})
+from fastapi import FastAPI
+from starlette.requests import Request
+from fastapi.templating import Jinja2Templates
 
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
+@app.get("/game")
+def game(request: Request, v: str):
+    return templates.TemplateResponse("game.html", {})
 @app.get("/thumbnail")
 def thumbnail(v:str):
     return Response(content = requests.get(fr"https://img.youtube.com/vi/{v}/0.jpg").content,media_type=r"image/jpeg")
