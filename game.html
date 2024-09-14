@@ -1,1 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>数当てゲーム</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>数当てゲーム</h1>
+    <p>1から100の間の数を当ててください。</p>
+    <input type="number" id="guess" placeholder="数を入力">
+    <button onclick="checkGuess()">チェック</button>
+    <button onclick="setDifficulty('hard')">難しい</button>
+    <button onclick="setDifficulty('normal')">普通</button>
+    <p id="message"></p>
 
+    <script>
+        let randomNumber;
+        let attempts = 0;
+        let maxNumber = 100;
+
+        function setDifficulty(difficulty) {
+            if (difficulty === 'hard') {
+                maxNumber = 500;
+                document.querySelector('p').innerText = '1から500の間の数を当ててください。';
+            } else if (difficulty === 'normal') {
+                maxNumber = 100;
+                document.querySelector('p').innerText = '1から100の間の数を当ててください。';
+            }
+            startGame();
+        }
+
+        function startGame() {
+            randomNumber = Math.floor(Math.random() * maxNumber) + 1;
+            attempts = 0;
+            document.getElementById('message').innerText = '';
+        }
+
+        function checkGuess() {
+            const guess = document.getElementById('guess').value;
+            if (guess === '') {
+                alert('数を入力してください。');
+                return;
+            }
+
+            attempts++;
+
+            if (guess == randomNumber) {
+                document.getElementById('message').innerText = `正解！ ${randomNumber} でした。 ${attempts} 回目で当たりました！`;
+            } else if (guess < randomNumber) {
+                document.getElementById('message').innerText = 'もっと大きい数です。';
+            } else {
+                document.getElementById('message').innerText = 'もっと小さい数です。';
+            }
+        }
+
+        startGame();
+    </script>
+</body>
+</html>
