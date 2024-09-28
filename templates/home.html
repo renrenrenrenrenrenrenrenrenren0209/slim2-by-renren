@@ -25,7 +25,91 @@
     <link rel="apple-touch-icon" sizes="32x32" href="https://raw.githubusercontent.com/renrender0209/slim2-by-renren/main/views/32.png">
     <link rel="apple-touch-icon" sizes="16x16" href="https://raw.githubusercontent.com/renrender0209/slim2-by-renren/main/views/16.png">
 </head>
+<?php
+// ファイルをアップロードする処理
+if ($_FILES["image"]) {
+  $target_dir = "uploads/";
+  $target_file = $target_dir . basename($_FILES["image"]["name"]);
+  $uploadOk = 1;
+  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
+  // ファイルが画像かどうかチェック
+  if(isset($_POST["submit"])) {
+    $check = getimagesize($_FILES["image"]["tmp_name"]);
+    if($check !== false) {
+      echo "File is an image - " . $check["mime"] . ".";
+      $uploadOk = 1;
+    } else {
+      echo "File is not an image.";
+      $uploadOk = 0;
+    }
+  }
+
+  // ファイルがすでに存在している場合の処理
+  if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
+  }
+
+  // ファイルサイズが大きすぎる場合の処理
+  if ($_FILES["image"]["size"] > 500000) {
+    echo "Sorry, your file is too large.";
+    $uploadOk = 0;
+  }
+
+  // ファイルタイプが許可されていない場合の処理
+  if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+    echo "Sorry, only JPG, JPEG & PNG files are allowed.";
+    $uploadOk = 0;
+  }
+
+  // アップロードが許可されている場合の処理
+  if ($uploadOk == 1) {
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+      echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
+    } else {
+      echo "Sorry, there was an error uploading your file.";
+    }
+  }
+}
+
+// 画像のURLを取得する処理
+$imageUrl = isset($_SESSION["imageUrl"]) ? $_SESSION["imageUrl"] : "";
+?>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>背景画像選択</title>
+  <style>
+    body {
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
+</head>
+<body style="background-image: url(<?php echo $imageUrl; ?>);">
+  <form method="post" enctype="multipart/form-data">
+    <input type="file" name="image" id="imageInput" accept="image/*">
+    <button type="submit" name="submit" id="setAsBackground">背景に設定</button>
+  </form>
+
+  <script>
+    // JavaScriptでサーバーサイドの処理を呼び出す
+    const imageInput = document.getElementById('imageInput');
+    const setAsBackgroundButton = document.getElementById('setAsBackground');
+
+    setAsBackgroundButton.addEventListener('click', () => {
+      // サーバーサイドの処理にデータを送信する
+      // 例：AJAXを使用して画像データを送信
+      // 処理が成功したら、画像のURLをサーバーから取得し、
+      // document.body.style.backgroundImage に設定する
+    });
+  </script>
+</body>
+</html>
     <body class="no-theme">
         <div class="pure-g h-box" id="search-widget">
             <div class="pure-u-1" id="logo">
