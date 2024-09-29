@@ -5,17 +5,16 @@ import time
 import datetime
 import random
 import os
-import subprocess
 from cache import cache
 
+registed_seeds = []
+online_users = "0"
 
 max_api_wait_time = 3
 max_time = 10
-apis = [r"https://iv.datura.network/",r"https://invidious.private.coffee/",r"https://invidious.protokolla.fi/",r"https://invidious.perennialte.ch/",r"https://yt.cdaut.de/",r"https://invidious.materialio.us/",r"https://yewtu.be/",r"https://invidious.fdn.fr/",r"https://inv.tux.pizza/",r"https://invidious.privacyredirect.com/",r"https://invidious.drgns.space/",r"https://vid.puffyan.us",r"https://invidious.jing.rocks/",r"https://youtube.076.ne.jp/",r"https://vid.puffyan.us/",r"https://inv.riverside.rocks/",r"https://invidio.xamh.de/",r"https://y.com.sb/",r"https://invidious.sethforprivacy.com/",r"https://invidious.tiekoetter.com/",r"https://inv.bp.projectsegfau.lt/",r"https://inv.vern.cc/",r"https://invidious.nerdvpn.de/",r"https://inv.privacy.com.de/",r"https://invidious.rhyshl.live/",r"https://invidious.slipfox.xyz/",r"https://invidious.weblibre.org/",r"https://invidious.namazso.eu/",r"https://invidious.jing.rocks"]
+apis = [r"https://youtube.076.ne.jp/",r"https://vid.puffyan.us/",r"https://inv.riverside.rocks/",r"https://invidio.xamh.de/",r"https://y.com.sb/",r"https://invidious.sethforprivacy.com/",r"https://invidious.tiekoetter.com/",r"https://inv.bp.projectsegfau.lt/",r"https://inv.vern.cc/",r"https://invidious.nerdvpn.de/",r"https://inv.privacy.com.de/",r"https://invidious.rhyshl.live/",r"https://invidious.slipfox.xyz/",r"https://invidious.weblibre.org/",r"https://invidious.namazso.eu/"]
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
 version = "1.0"
-
-os.system("chmod 777 ./yukiverify")
 
 apichannels = []
 apicomments = []
@@ -99,7 +98,7 @@ def apicommentsrequest(url):
 def get_info(request):
     global version
     return json.dumps([version,os.environ.get('RENDER_EXTERNAL_URL'),str(request.scope["headers"]),str(request.scope['router'])[39:-2]])
-
+    
 def get_data(videoid):
     global logs
     t = json.loads(apirequest(r"api/v1/videos/"+ urllib.parse.quote(videoid)))
@@ -141,28 +140,21 @@ def get_comments(videoid):
 def get_replies(videoid,key):
     t = json.loads(apicommentsrequest(fr"api/v1/comments/{videoid}?hmac_key={key}&hl=jp&format=html"))["contentHtml"]
 
-def get_level(word):
-    for i1 in range(1,13):
-        with open(f'Level{i1}.txt', 'r', encoding='UTF-8', newline='\n') as f:
-            if word in [i2.rstrip("\r\n") for i2 in f.readlines()]:
-                return i1
-    return 0
 
 
 def check_cokie(cookie):
-    print(cookie)
     if cookie == "True":
         return True
     return False
 
-def get_verifycode():
-    try:
-        result = subprocess.run(["./yukiverify"], encoding='utf-8', stdout=subprocess.PIPE)
-        hashed_password = result.stdout.strip()
-        return hashed_password
-    except subprocess.CalledProcessError as e:
-        print(f"Error: {e}")
-        return None
+
+
+def regist_seed(seed):
+    if not seed in registed_seeds:
+        registed_seeds.append(seed)
+        print(f"new Token registed.(Total registed Token: {len(registed_seeds)})")
+
+
 
 
 
