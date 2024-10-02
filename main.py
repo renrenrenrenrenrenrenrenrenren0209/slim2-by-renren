@@ -28,7 +28,7 @@ def is_json(json_str):
     except json.JSONDecodeError as jde:
         pass
     return result
-
+os.system("chmod 777 ./yukiverify")
 def apirequest(url):
     global apis
     global max_time
