@@ -11,12 +11,19 @@ import ast
 
 max_api_wait_time = 3
 max_time = 10
-apis = [r"https://iv.datura.network/",r"https://invidious.private.coffee/",r"https://invidious.protokolla.fi/",r"https://invidious.perennialte.ch/",r"https://yt.cdaut.de/",r"https://invidious.materialio.us/",r"https://yewtu.be/",r"https://invidious.fdn.fr/",r"https://inv.tux.pizza/",r"https://invidious.privacyredirect.com/",r"https://invidious.drgns.space/",r"https://vid.puffyan.us",r"https://invidious.jing.rocks/",r"https://youtube.076.ne.jp/",r"https://vid.puffyan.us/",r"https://inv.riverside.rocks/",r"https://invidio.xamh.de/",r"https://y.com.sb/",r"https://invidious.sethforprivacy.com/",r"https://invidious.tiekoetter.com/",r"https://inv.bp.projectsegfau.lt/",r"https://inv.vern.cc/",r"https://invidious.nerdvpn.de/",r"https://inv.privacy.com.de/",r"https://invidious.rhyshl.live/",r"https://invidious.slipfox.xyz/",r"https://invidious.weblibre.org/",r"https://invidious.namazso.eu/",r"https://invidious.jing.rocks"]
+apis = ast.literal_eval(requests.get('https://raw.githubusercontent.com/LunaKamituki/yukiyoutube-inv-instances/main/instances.txt').text)
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
 version = "1.0"
+
+def getSource(name):
+    return requests.get(f'https://raw.githubusercontent.com/LunaKamituki/yuki-source/main/{name}.html').text
+    
+
+os.system("chmod 777 ./yukiverify")
+
 apichannels = []
 apicomments = []
-[[apichannels.append(i),apicomments.append(i)] for i in apis]
+[[apichannels.append(i), apicomments.append(i)] for i in apis]
 class APItimeoutError(Exception):
     pass
 
@@ -28,16 +35,18 @@ def is_json(json_str):
     except json.JSONDecodeError as jde:
         pass
     return result
-os.system("chmod 777 ./yukiverify")
+
 def apirequest(url):
     global apis
     global max_time
     starttime = time.time()
+
     for api in apis:
         if  time.time() - starttime >= max_time -1:
             break
+        
         try:
-            res = requests.get(api+url,timeout=max_api_wait_time)
+            res = requests.get(api+url, timeout=max_api_wait_time)
             if res.status_code == 200 and is_json(res.text):
                 return res.text
             else:
@@ -48,6 +57,7 @@ def apirequest(url):
             print(f"タイムアウト:{api}")
             apis.append(api)
             apis.remove(api)
+    
     raise APItimeoutError("APIがタイムアウトしました")
 
 def apichannelrequest(url):
