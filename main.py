@@ -297,4 +297,32 @@ def write_bbs(request: Request, name: str = "", message: str = "", seed:Union[st
         
         match urllib.parse.quote(message):
             case '/genseeds':
-                return HTMLResponse(t.text + getSource('bbs
+                return HTMLResponse(t.text + getSource('bbs_3'))
+                
+            case _:
+                return HTMLResponse(t.text + getSource('bbs_1') + getSource('shortcut_help') + getSource('bbs_2'))
+        
+    return redirect(f"/bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}")
+
+@cache(seconds=30)
+def how_cached():
+    return requests.get(fr"{url}bbs/how").text
+
+@app.get("/bbs/how", response_class=PlainTextResponse)
+def view_commonds(request: Request, yuki: Union[str] = Cookie(None)):
+    if not(check_cokie(yuki)):
+        return redirect("/")
+    return how_cached()
+
+@app.get("/load_instance")
+def home():
+    global url
+    url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
+
+
+@app.exception_handler(500)
+def page(request: Request, __):
+    return template("APIwait.html", {"request": request}, status_code=500)
+
+@app.exception_handler(APItimeoutError)
+def APIwait(request: Request, exception: APItimeoutError):
