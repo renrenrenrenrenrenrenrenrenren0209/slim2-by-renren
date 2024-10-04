@@ -14,8 +14,7 @@ max_time = 9
 apis = [
     r"https://invidious.jing.rocks/",
     r"https://invidious.nerdvpn.de/",
-    r"https://invidious.privacyredirect.com/
-",
+    r"https://invidious.privacyredirect.com/",
 ]
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
 version = "1.0"
