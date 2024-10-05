@@ -186,7 +186,7 @@ from typing import Union
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 app.mount("/css", StaticFiles(directory="./css"), name="static")
-app.mount("/yuki", StaticFiles(directory="./blog", html=True), name="static")
+app.mount("/word", StaticFiles(directory="./blog", html=True), name="static")
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 from fastapi.templating import Jinja2Templates
@@ -221,11 +221,11 @@ async def verify(request: Request, verifycode: str):
     else:
         return template("error.html", {"request": request, "error_message": "認証に失敗しました。"})
 
-@app.get("/yuki/api/v1/info", response_class=PlainTextResponse)
+@app.get("/word/api/v1/info", response_class=PlainTextResponse)
 async def info(request: Request):
     return get_info(request)
 
-@app.get("/yuki/api/v1/videos/{videoid}", response_class=PlainTextResponse)
+@app.get("/word/api/v1/videos/{videoid}", response_class=PlainTextResponse)
 async def get_videos(videoid: str):
     try:
         return json.dumps(get_data(videoid))
@@ -233,7 +233,7 @@ async def get_videos(videoid: str):
         print(e)
         return json.dumps({"status": "error", "message": "APIがタイムアウトしました"})
 
-@app.get("/yuki/api/v1/search", response_class=PlainTextResponse)
+@app.get("/word/api/v1/search", response_class=PlainTextResponse)
 async def search(q: str, page: int = 1):
     try:
         return json.dumps(get_search(q, page))
@@ -241,7 +241,7 @@ async def search(q: str, page: int = 1):
         print(e)
         return json.dumps({"status": "error", "message": "APIがタイムアウトしました"})
 
-@app.get("/yuki/api/v1/channels/{channelid}", response_class=PlainTextResponse)
+@app.get("/word/api/v1/channels/{channelid}", response_class=PlainTextResponse)
 async def get_channel(channelid: str):
     try:
         return json.dumps(get_channel(channelid))
@@ -249,7 +249,7 @@ async def get_channel(channelid: str):
         print(e)
         return json.dumps({"status": "error", "message": "APIがタイムアウトしました"})
 
-@app.get("/yuki/api/v1/playlists/{listid}", response_class=PlainTextResponse)
+@app.get("/word/api/v1/playlists/{listid}", response_class=PlainTextResponse)
 async def get_playlist(listid: str, page: int = 1):
     try:
         return json.dumps(get_playlist(listid, page))
@@ -257,7 +257,7 @@ async def get_playlist(listid: str, page: int = 1):
         print(e)
         return json.dumps({"status": "error", "message": "APIがタイムアウトしました"})
 
-@app.get("/yuki/api/v1/comments/{videoid}", response_class=PlainTextResponse)
+@app.get("/word/api/v1/comments/{videoid}", response_class=PlainTextResponse)
 async def get_comments(videoid: str):
     try:
         return json.dumps(get_comments(videoid))
@@ -265,7 +265,7 @@ async def get_comments(videoid: str):
         print(e)
         return json.dumps({"status": "error", "message": "APIがタイムアウトしました"})
 
-@app.get("/yuki/api/v1/comments/{videoid}/replies", response_class=PlainTextResponse)
+@app.get("/word/api/v1/comments/{videoid}/replies", response_class=PlainTextResponse)
 async def get_replies(videoid: str, key: str):
     try:
         get_replies(videoid, key)
@@ -274,7 +274,7 @@ async def get_replies(videoid: str, key: str):
         print(e)
         return json.dumps({"status": "error", "message": "APIがタイムアウトしました"})
 
-@app.get("/yuki/api/v1/level/{yuki}", response_class=PlainTextResponse)
+@app.get("/word/api/v1/level/{yuki}", response_class=PlainTextResponse)
 async def get_level(yuki: str):
     try:
         return json.dumps({"level": get_level(yuki)})
