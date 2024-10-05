@@ -7,27 +7,22 @@ import random
 import os
 import subprocess
 from cache import cache
-import ast
 
-max_api_wait_time = 4
+
+max_api_wait_time = 3
 max_time = 9
-apis = [
-    r"https://invidious.jing.rocks/",
-    r"https://invidious.nerdvpn.de/",
-    r"https://invidious.privacyredirect.com/",
-]
+apis = [ r"https://invidious.jing.rocks/",
+         r"https://invidious.nerdvpn.de/", 
+         r"https://invidious.privacyredirect.com/", 
+       ]
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
 version = "1.0"
-
-def getSource(name):
-    return requests.get(f'https://raw.githubusercontent.com/LunaKamituki/yuki-source/main/{name}.html').text
-    
 
 os.system("chmod 777 ./yukiverify")
 
 apichannels = []
 apicomments = []
-[[apichannels.append(i), apicomments.append(i)] for i in apis]
+[[apichannels.append(i),apicomments.append(i)] for i in apis]
 class APItimeoutError(Exception):
     pass
 
@@ -40,53 +35,7 @@ def is_json(json_str):
         pass
     return result
 
-def apirequest(url):
-    global apis
-    global max_time
-    starttime = time.time()
 
-    for api in apis:
-        if  time.time() - starttime >= max_time -1:
-            break
-        
-        try:
-            res = requests.get(api+url, timeout=max_api_wait_time)
-            if res.status_code == 200 and is_json(res.text):
-                return res.text
-            else:
-                print(f"エラー:{api}")
-                apis.append(api)
-                apis.remove(api)
-        except:
-            print(f"タイムアウト:{api}")
-            apis.append(api)
-            apis.remove(api)
-    
-    raise APItimeoutError("APIがタイムアウトしました")
-
-def apichannelrequest(url):
-    global apichannels
-    global max_time
-    starttime = time.time()
-
-    for api in apichannels:
-        if  time.time() - starttime >= max_time -1:
-            break
-
-        try:
-            res = requests.get(api+url, timeout=max_api_wait_time)
-            if res.status_code == 200 and is_json(res.text):
-                return res.text
-            else:
-                print(f"エラー:{api}")
-                apichannels.append(api)
-                apichannels.remove(api)
-        except:
-            print(f"タイムアウト:{api}")
-            apichannels.append(api)
-            apichannels.remove(api)
-    
-    raise APItimeoutError("APIがタイムアウトしました")
 
 def apicommentsrequest(url):
     global apicomments
@@ -96,7 +45,7 @@ def apicommentsrequest(url):
         if  time.time() - starttime >= max_time -1:
             break
         try:
-            res = requests.get(api+url, timeout=max_api_wait_time)
+            res = requests.get(api+url,timeout=max_api_wait_time)
             if res.status_code == 200 and is_json(res.text):
                 return res.text
             else:
@@ -107,7 +56,51 @@ def apicommentsrequest(url):
             print(f"タイムアウト:{api}")
             apicomments.append(api)
             apicomments.remove(api)
-    raise APItimeoutError("APIがタイムアウトしました")  
+    raise APItimeoutError("APIがタイムアウトしました")
+
+def apirequest(url):
+    global apis
+    global max_time
+    starttime = time.time()
+    for api in apis:
+        if time.time() - starttime >= max_time - 1:
+            break
+        try:
+            res = requests.get(api + url, timeout=max_api_wait_time)
+            if res.status_code == 200 and is_json(res.text):
+                print(f"verifyAPI: {api}")  
+                return res.text
+            else:
+                print(f"エラー: {api}")
+                apis.append(api)
+                apis.remove(api)
+        except:
+            print(f"タイムアウト: {api}")
+            apis.append(api)
+            apis.remove(api)
+    raise APItimeoutError("APIがタイムアウトしました")
+
+def apichannelrequest(url):
+    global apichannels
+    global max_time
+    starttime = time.time()
+    for api in apichannels:
+        if time.time() - starttime >= max_time - 1:
+            break
+        try:
+            res = requests.get(api + url, timeout=max_api_wait_time)
+            if res.status_code == 200 and is_json(res.text):
+                print(f"verifyAPI: {api}")  
+                return res.text
+            else:
+                print(f"エラー: {api}")
+                apichannels.append(api)
+                apichannels.remove(api)
+        except:
+            print(f"タイムアウト: {api}")
+            apichannels.append(api)
+            apichannels.remove(api)
+    raise APItimeoutError("APIがタイムアウトしました")
 
 def get_info(request):
     global version
