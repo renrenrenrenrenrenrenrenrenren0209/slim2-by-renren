@@ -7,176 +7,123 @@ import random
 import os
 import subprocess
 from cache import cache
+import ast
 
-
+# 3 => (3.0, 1.5)
 max_api_wait_time = (3.0, 1.5)
-
+# 10 => 10
 max_time = 10
 
 class InvidiousAPI:
     def __init__(self):
-        self.videos_api = [
-                 r"https://invidious.jing.rocks/",
-                 r"https://invidious.nerdvpn.de/", 
-                 r"https://invidious.privacyredirect.com/", 
-       ]
+        self.videos_apis = [ 
+            r"https://invidious.jing.rocks/",
+            r"https://invidious.nerdvpn.de/", 
+            r"https://invidious.privacyredirect.com/", 
+        ]
         self.channels_api = []
         self.comments_api = []
         
-        [
-            [self.channels_api.append(api), self.comments_api.append(api)]
-            for api in self.videos_api
-        ]
+        [[self.channels_api.append(api), self.comments_api.append(api)] for api in self.videos_api]
 
     def __repr__(self):
         return {
             'videos_api': self.videos_api,
             'channels_api': self.channels_api,
             'comments_api': self.comments_api
-      }
+        }
 
         
 invidious_api = InvidiousAPI()
-url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
+
+url = requests.get('https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
+
 version = "1.0"
 
 os.system("chmod 777 ./yukiverify")
 
-apichannels = []
-apicomments = []
-[[apichannels.append(i),apicomments.append(i)] for i in apis]
 class APItimeoutError(Exception):
     pass
 
 def is_json(json_str):
-    result = False
     try:
         json.loads(json_str)
-        result = True
+        return True
     except json.JSONDecodeError as jde:
         pass
-    return result
+    return False
 
+def updateList(list, str):
+    list.append(str)
+    list.remove(str)
+    return list
 
-
-def apicommentsrequest(url):
-    global apicomments
-    global max_time
+def apirequest(api_urlpath, api_urls):
     starttime = time.time()
-    for api in apicomments:
-        if  time.time() - starttime >= max_time -1:
+    
+    for api in api_urls:
+        if  time.time() - starttime >= max_time - 1:
             break
+            
         try:
-            res = requests.get(api+url,timeout=max_api_wait_time)
+            res = requests.get(api + 'api/v1' + api_urlpath, timeout=max_api_wait_time)
             if res.status_code == 200 and is_json(res.text):
-                return res.text
-            else:
-                print(f"エラー:{api}")
-                apicomments.append(api)
-                apicomments.remove(api)
-        except:
-            print(f"タイムアウト:{api}")
-            apicomments.append(api)
-            apicomments.remove(api)
-    raise APItimeoutError("APIがタイムアウトしました")
-
-def apirequest(url):
-    global apis
-    global max_time
-    starttime = time.time()
-    for api in apis:
-        if time.time() - starttime >= max_time - 1:
-            break
-        try:
-            res = requests.get(api + url, timeout=max_api_wait_time)
-            if res.status_code == 200 and is_json(res.text):
-                print(f"verifyAPI: {api}")  
                 return res.text
             else:
                 print(f"エラー: {api}")
-                apis.append(api)
-                apis.remove(api)
+                updateList(api_urls, api)
         except:
             print(f"タイムアウト: {api}")
-            apis.append(api)
-            apis.remove(api)
-    raise APItimeoutError("APIがタイムアウトしました")
-
-def apichannelrequest(url):
-    global apichannels
-    global max_time
-    starttime = time.time()
-    for api in apichannels:
-        if time.time() - starttime >= max_time - 1:
-            break
-        try:
-            res = requests.get(api + url, timeout=max_api_wait_time)
-            if res.status_code == 200 and is_json(res.text):
-                print(f"verifyAPI: {api}")  
-                return res.text
-            else:
-                print(f"エラー: {api}")
-                apichannels.append(api)
-                apichannels.remove(api)
-        except:
-            print(f"タイムアウト: {api}")
-            apichannels.append(api)
-            apichannels.remove(api)
+            updateList(api_urls, api)
+    
     raise APItimeoutError("APIがタイムアウトしました")
 
 def get_info(request):
-    global version
     return json.dumps([version, os.environ.get('RENDER_EXTERNAL_URL'), str(request.scope["headers"]), str(request.scope['router'])[39:-2]])
 
 def get_data(videoid):
-    global logs
-    t = json.loads(apirequest(r"api/v1/videos/" + urllib.parse.quote(videoid)))
-    return [{"id":i["videoId"], "title":i["title"], "authorId":i["authorId"], "author":i["author"]} for i in t["recommendedVideos"]], list(reversed([i["url"] for i in t["formatStreams"]]))[:2], t["descriptionHtml"].replace("\n", "<br>"), t["title"], t["authorId"], t["author"], t["authorThumbnails"][-1]["url"]
+    t = json.loads(apirequest(f"/videos/{urllib.parse.quote(videoid)}", invidious_api.videos_api))
+    return [{"id": i["videoId"], "title": i["title"], "authorId": i["authorId"], "author": i["author"]} for i in t["recommendedVideos"]], list(reversed([i["url"] for i in t["formatStreams"]]))[:2], t["descriptionHtml"].replace("\n", "<br>"), t["title"], t["authorId"], t["author"], t["authorThumbnails"][-1]["url"]
 
 def get_search(q, page):
-    global logs
-    t = json.loads(apirequest(fr"api/v1/search?q={urllib.parse.quote(q)}&page={page}&hl=jp"))
+    t = json.loads(apirequest(f"/search?q={urllib.parse.quote(q)}&page={page}&hl=jp", invidious_api.videos_api))
 
     def load_search(i):
         if i["type"] == "video":
-            return {"title":i["title"], "id":i["videoId"], "authorId":i["authorId"], "author":i["author"], "length":str(datetime.timedelta(seconds=i["lengthSeconds"])), "published":i["publishedText"], "type":"video"}
+            return {"title": i["title"], "id": i["videoId"], "authorId": i["authorId"], "author": i["author"], "length":str(datetime.timedelta(seconds=i["lengthSeconds"])), "published": i["publishedText"], "type": "video"}
+            
         elif i["type"] == "playlist":
-            return {"title":i["title"], "id":i["playlistId"], "thumbnail":i["videos"][0]["videoId"], "count":i["videoCount"], "type":"playlist"}
+            return {"title": i["title"], "id": i["playlistId"], "thumbnail": i["videos"][0]["videoId"], "count": i["videoCount"], "type": "playlist"}
+            
+        elif i["authorThumbnails"][-1]["url"].startswith("https"):
+            return {"author": i["author"], "id": i["authorId"], "thumbnail": i["authorThumbnails"][-1]["url"], "type": "channel"}
+            
         else:
-            if i["authorThumbnails"][-1]["url"].startswith("https"):
-                return {"author":i["author"], "id":i["authorId"], "thumbnail":i["authorThumbnails"][-1]["url"], "type":"channel"}
-            else:
-                return {"author":i["author"], "id":i["authorId"], "thumbnail":r"https://"+i["authorThumbnails"][-1]["url"], "type":"channel"}
+            return {"author": i["author"], "id": i["authorId"], "thumbnail": f"https://{i['authorThumbnails'][-1]['url']}", "type": "channel"}
+    
     return [load_search(i) for i in t]
 
 def get_channel(channelid):
-    global apichannels
-    t = json.loads(apichannelrequest(r"api/v1/channels/" + urllib.parse.quote(channelid)))
+    t = json.loads(apirequest(f"/channels/{urllib.parse.quote(channelid)}", invidious_api.channels_api))
     if t["latestVideos"] == []:
         print("APIがチャンネルを返しませんでした")
-        apichannels.append(apichannels[0])
-        apichannels.remove(apichannels[0])
+        apichannels = updateList(apichannels, apichannels[0])
         raise APItimeoutError("APIがチャンネルを返しませんでした")
-    return [[{"title":i["title"], "id":i["videoId"], "authorId":t["authorId"], "author":t["author"], "published":i["publishedText"], "type":"video"} for i in t["latestVideos"]], {"channelname":t["author"], "channelicon":t["authorThumbnails"][-1]["url"], "channelprofile":t["descriptionHtml"]}]
+    return [[{"title": i["title"], "id": i["videoId"], "authorId": t["authorId"], "author": t["author"], "published": i["publishedText"], "type":"video"} for i in t["latestVideos"]], {"channelname": t["author"], "channelicon": t["authorThumbnails"][-1]["url"], "channelprofile": t["descriptionHtml"]}]
 
 def get_playlist(listid, page):
-    t = json.loads(apirequest(r"/api/v1/playlists/"+ urllib.parse.quote(listid)+"?page="+urllib.parse.quote(page)))["videos"]
-    return [{"title":i["title"], "id":i["videoId"], "authorId":i["authorId"], "author":i["author"], "type":"video"} for i in t]
+    t = json.loads(apirequest(f"/playlists/{urllib.parse.quote(listid)}?page={urllib.parse.quote(page)}", invidious_api.videos_api))["videos"]
+    return [{"title": i["title"], "id": i["videoId"], "authorId": i["authorId"], "author": i["author"], "type": "video"} for i in t]
 
 def get_comments(videoid):
-    t = json.loads(apicommentsrequest(r"api/v1/comments/"+ urllib.parse.quote(videoid)+"?hl=jp"))["comments"]
-    return [{"author":i["author"], "authoricon":i["authorThumbnails"][-1]["url"], "authorid":i["authorId"], "body":i["contentHtml"].replace("\n", "<br>")} for i in t]
+    t = json.loads(apirequest(f"/comments/{urllib.parse.quote(videoid)}?hl=jp", invidious_api.comments_api))["comments"]
+    return [{"author": i["author"], "authoricon": i["authorThumbnails"][-1]["url"], "authorid": i["authorId"], "body": i["contentHtml"].replace("\n", "<br>")} for i in t]
+
+'''
 
 def get_replies(videoid, key):
-    t = json.loads(apicommentsrequest(fr"api/v1/comments/{videoid}?hmac_key={key}&hl=jp&format=html"))["contentHtml"]
-
-def get_level(word):
-    for i1 in range(1, 13):
-        with open(f'Level{i1}.txt', 'r', encoding='UTF-8', newline='\n') as f:
-            if word in [i2.rstrip("\r\n") for i2 in f.readlines()]:
-                return i1
-    return 0
-
+    t = json.loads(apirequest(f"/comments/{videoid}?hmac_key={key}&hl=jp&format=html", invidious_api.comments_api))["contentHtml"]
+'''
 
 def check_cokie(cookie):
     print(cookie)
@@ -190,10 +137,8 @@ def get_verifycode():
         hashed_password = result.stdout.strip()
         return hashed_password
     except subprocess.CalledProcessError as e:
-        print(f"Error: {e}")
+        print(f"get_verifycode__Error: {e}")
         return None
-
-
 
 
 
