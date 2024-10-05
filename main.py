@@ -9,12 +9,31 @@ import subprocess
 from cache import cache
 
 
-max_api_wait_time = 3
+max_api_wait_time = (2.5, 2.0)
+
 max_time = 9
-apis = [ r"https://invidious.jing.rocks/",
-         r"https://invidious.nerdvpn.de/", 
-         r"https://invidious.privacyredirect.com/", 
+
+class InvidiousAPI:
+    def __init__(self):
+        self.videos_api =  [
+                 r"https://invidious.jing.rocks/",
+                 r"https://invidious.nerdvpn.de/", 
+                 r"https://invidious.privacyredirect.com/", 
        ]
+        self.channels_api = []
+        self.comments_api = []
+        
+        [[self.channels_api.append(api), self.comments_api.append(api)] for api in self.videos_api]
+
+    def __repr__(self):
+        return {
+            'videos_api': self.videos_api,
+            'channels_api': self.channels_api,
+            'comments_api': self.comments_api
+        }
+
+        
+invidious_api = InvidiousAPI()
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
 version = "1.0"
 
