@@ -14,7 +14,6 @@ max_time = 9
 apis = [
     r"https://invidious.jing.rocks/",
     r"https://invidious.nerdvpn.de/",
-     r"https://invidious.privacyredirect.com/", 
 ]
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
 version = "1.0"
@@ -69,7 +68,7 @@ def apirequest(url):
         try:
             res = requests.get(api + url, timeout=max_api_wait_time)
             if res.status_code == 200 and is_json(res.text):
-                print(f"verifyAPI: {api}")  # APIかな
+                print(f"成功したAPI: {api}")  # APIのリンクをログに出力
                 return res.text
             else:
                 print(f"エラー: {api}")
@@ -91,7 +90,7 @@ def apichannelrequest(url):
         try:
             res = requests.get(api + url, timeout=max_api_wait_time)
             if res.status_code == 200 and is_json(res.text):
-                print(f"verifyAPI: {api}")  
+                print(f"成功したAPI: {api}")  # APIのリンクをログに出力
                 return res.text
             else:
                 print(f"エラー: {api}")
@@ -189,6 +188,10 @@ app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 app.mount("/css", StaticFiles(directory="./css"), name="static")
 app.mount("/yuki", StaticFiles(directory="./blog", html=True), name="static")
 app.add_middleware(GZipMiddleware, minimum_size=1000)
+
+from fastapi.templating import Jinja2Templates
+template = Jinja2Templates(directory='templates').TemplateResponse
+
 
 from fastapi.templating import Jinja2Templates
 template = Jinja2Templates(directory='templates').TemplateResponse
