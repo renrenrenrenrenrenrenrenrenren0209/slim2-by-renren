@@ -9,9 +9,9 @@ import subprocess
 from cache import cache
 
 
-max_api_wait_time = (2.5, 2.0)
+max_api_wait_time = (3.0, 1.5)
 
-max_time = 9
+max_time = 10
 
 class InvidiousAPI:
     def __init__(self):
