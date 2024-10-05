@@ -107,7 +107,7 @@ def apicommentsrequest(url):
             print(f"タイムアウト:{api}")
             apicomments.append(api)
             apicomments.remove(api)
-    raise APItimeoutError("APIがタイムアウトしました") 
+    raise APItimeoutError("APIがタイムアウトしました")  
 
 def get_info(request):
     global version
