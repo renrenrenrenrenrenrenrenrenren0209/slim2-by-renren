@@ -15,7 +15,7 @@ max_time = 9
 
 class InvidiousAPI:
     def __init__(self):
-        self.videos_api =  [
+        self.videos_api = [
                  r"https://invidious.jing.rocks/",
                  r"https://invidious.nerdvpn.de/", 
                  r"https://invidious.privacyredirect.com/", 
@@ -30,7 +30,7 @@ class InvidiousAPI:
             'videos_api': self.videos_api,
             'channels_api': self.channels_api,
             'comments_api': self.comments_api
-        }
+      }
 
         
 invidious_api = InvidiousAPI()
