@@ -23,7 +23,11 @@ class InvidiousAPI:
         self.channels_api = []
         self.comments_api = []
         
-        [[self.channels_api.append(api), self.comments_api.append(api)] for api in self.videos_api]
+
+        [
+            [self.channels_api.append(api), self.comments_api.append(api)]
+            for api in self.videos_api
+        ]
 
     def __repr__(self):
         return {
