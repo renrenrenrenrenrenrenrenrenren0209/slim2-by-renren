@@ -39,11 +39,6 @@ body {
   margin: 0.5em 0 1em 0;
 }
 
-/* A flex container */
-.flexible {
-  display: flex;
-  align-items: center;
-}
 
 .flex-left {
   display: flex;
