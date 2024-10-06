@@ -70,7 +70,7 @@ def apirequest(url):
         try:
             res = requests.get(api + url, timeout=max_api_wait_time)
             if res.status_code == 200 and is_json(res.text):
-                print(f"成功したAPI: {api}")  # APIのリンクをログに出力
+                print(f"成功したAPI: {api}")  
                 return res.text
             else:
                 print(f"エラー: {api}")
@@ -92,7 +92,7 @@ def apichannelrequest(url):
         try:
             res = requests.get(api + url, timeout=max_api_wait_time)
             if res.status_code == 200 and is_json(res.text):
-                print(f"成功したAPI: {api}")  # APIのリンクをログに出力
+                print(f"成功したAPI: {api}")  
                 return res.text
             else:
                 print(f"エラー: {api}")
