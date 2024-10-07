@@ -18,7 +18,6 @@ apis = [
     r"https://invidious.privacyredirect.com/",
     r"https://invidious.private.coffee/",
     r"https://invi.susurrando.com/",
-    r"https://invidious.0011.lt/",
     r"https://invi.susurrando.com/"
 ]
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
