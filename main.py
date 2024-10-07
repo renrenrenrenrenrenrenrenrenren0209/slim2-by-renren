@@ -9,9 +9,96 @@ import subprocess
 from cache import cache
 
 
-max_api_wait_time = 6
-max_time = 8
-apis = [r"https://iv.datura.network/",r"https://invidious.private.coffee/",r"https://invidious.protokolla.fi/",r"https://invidious.perennialte.ch/",r"https://yt.cdaut.de/",r"https://invidious.materialio.us/",r"https://yewtu.be/",r"https://invidious.fdn.fr/",r"https://inv.tux.pizza/",r"https://invidious.privacyredirect.com/",r"https://invidious.drgns.space/",r"https://vid.puffyan.us",r"https://invidious.jing.rocks/",r"https://youtube.076.ne.jp/",r"https://vid.puffyan.us/",r"https://inv.riverside.rocks/",r"https://invidio.xamh.de/",r"https://y.com.sb/",r"https://invidious.sethforprivacy.com/",r"https://invidious.tiekoetter.com/",r"https://inv.bp.projectsegfau.lt/",r"https://inv.vern.cc/",r"https://invidious.nerdvpn.de/",r"https://inv.privacy.com.de/",r"https://invidious.rhyshl.live/",r"https://invidious.slipfox.xyz/",r"https://invidious.weblibre.org/",r"https://invidious.namazso.eu/",r"https://invidious.jing.rocks"]
+max_api_wait_time = 3
+max_time = 6
+apis = [r"https://inv.bp.projectsegfau.lt/",
+
+  r"https://inv.nadeko.net/",
+  r"https://inv.odyssey346.dev/", # 追加
+  r"https://inv.privacy.com.de/",
+  r"https://inv.riverside.rocks/",
+  r"https://inv.tux.pizza/",
+  r"https://inv.us.projectsegfau.lt/", # 追加
+  r"https://inv.vern.cc/",
+
+  r"https://invi.susurrando.com/", # 追加
+
+  r"https://invidio.xamh.de/",
+
+  r"https://invidious.0011.lt/", # 追加
+  r"https://invidious.adminforge.de/", #追加
+  r"https://invidious.baczek.me/", # 追加
+  r"https://invidious.chunboan.zone/", # 追加
+  r"https://invidious.drgns.space/",
+  r"https://invidious.einfachzocken.eu/", # 追加
+  r"https://invidious.ethibox.fr/", # 追加
+  r"https://invidious.fdn.fr/",
+  r"https://invidious.flokinet.to/", # 追加
+  r"https://invidious.jing.rocks/",
+  r"https://invidious.lunar.icu/", # 追加
+  r"https://invidious.materialio.us/",
+  r"https://invidious.namazso.eu/",
+  r"https://invidious.nerdvpn.de/", # 遅い
+  r"https://invidious.nietzospannend.nl/", # 追加
+  r"https://invidious.pcgamingfreaks.at/", # 追加
+  r"https://invidious.perennialte.ch/",
+  r"https://invidious.privacydev.net/", # 追加
+  r"https://invidious.privacyredirect.com/",
+  r"https://invidious.private.coffee/",
+  r"https://invidious.projectsegfau.lt/", # 追加
+  r"https://invidious.protokolla.fi/",
+  r"https://invidious.qwik.space/", # 追加
+  r"https://invidious.reallyaweso.me/", # 追加
+  r"https://invidious.rhyshl.live/",
+  r"https://invidious.sethforprivacy.com/",
+  r"https://invidious.slipfox.xyz/",
+  r"https://invidious.snopyta.org/", # 追加
+  r"https://invidious.tiekoetter.com/",
+
+  r"https://invidious.varishangout.net/", # 追加
+  r"https://invidious.vern.cc/", # 追加
+  r"https://invidious.weblibre.org/",
+  r"https://invidious.yourdevice.ch/", # 追加
+  r"https://invidious.zapashcanon.fr/", # 追加
+  
+  r"https://iteroni.com/", # 追加
+
+  r"https://iv.catgirl.cloud/", # 追加
+  r"https://iv.datura.network/",
+  r"https://iv.ggtyler.dev/", # 追加
+  r"https://iv.melmac.space/", # 追加
+  r"https://iv.nboeck.de/", # 追加
+  r"https://iv.nowhere.moe/", # 追加
+
+  r"https://tube.netflux.io/", # 追加
+
+  r"https://tv.metaversum.wtf/", # 追加
+
+  r"https://vid.puffyan.us/",
+
+  r"https://video.weiler.rocks/", # 追加
+
+  r"https://vro.omcat.info/", # 追加
+
+  r"https://y.com.sb/",
+
+  r"https://yewtu.be/",
+
+  r"https://youtube.076.ne.jp/",
+  r"https://youtube.alt.tyil.nl/", # 追加
+  r"https://youtube.lurkmore.com/", # 追加
+  r"https://youtube.mosesmang.com/", # 追加
+  r"https://youtube.privacyplz.org/", # 追加
+
+  r"https://yt.artemislena.eu/", # 追加
+  r"https://yt.cdaut.de/",
+  r"https://yt.funami.tech/", # 追加
+  r"https://yt.thechangebook.org/", # 追加
+  r"https://yt.vern.cc/", # 追加
+  r"https://yt.yoc.ovh/", # 追加
+
+  r"https://ytb.alexio.tf/" 
+        r"https://iv.datura.network/",r"https://invidious.private.coffee/",r"https://invidious.protokolla.fi/",r"https://invidious.perennialte.ch/",r"https://yt.cdaut.de/",r"https://invidious.materialio.us/",r"https://yewtu.be/",r"https://invidious.fdn.fr/",r"https://inv.tux.pizza/",r"https://invidious.privacyredirect.com/",r"https://invidious.drgns.space/",r"https://vid.puffyan.us",r"https://invidious.jing.rocks/",r"https://youtube.076.ne.jp/",r"https://vid.puffyan.us/",r"https://inv.riverside.rocks/",r"https://invidio.xamh.de/",r"https://y.com.sb/",r"https://invidious.sethforprivacy.com/",r"https://invidious.tiekoetter.com/",r"https://inv.bp.projectsegfau.lt/",r"https://inv.vern.cc/",r"https://invidious.nerdvpn.de/",r"https://inv.privacy.com.de/",r"https://invidious.rhyshl.live/",r"https://invidious.slipfox.xyz/",r"https://invidious.weblibre.org/",r"https://invidious.namazso.eu/",r"https://invidious.jing.rocks"]
 
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
 version = "1.0"
