@@ -1,16 +1,8 @@
-import json
 import requests
-import urllib.parse
+import json
 import time
-import datetime
-import random
 import os
-import subprocess
-from cache import cache
 
-
-max_api_wait_time = 3
-max_time = 6
 apis = [
     r"https://invidious.jing.rocks/",
     r"https://invidious.nerdvpn.de/",
@@ -106,6 +98,18 @@ def apichannelrequest(url):
             apichannels.append(api)
             apichannels.remove(api)
     raise APItimeoutError("APIがタイムアウトしました")
+
+def get_thumbnail(video_id):
+
+    
+    try:
+        successful_api = apichannelrequest(f"/api/v1/watch?v={video_id}")
+        data = json.loads(successful_api)
+        thumbnail_url = data["player_response"]["videoDetails"]["thumbnail"]["thumbnails"][-1]["url"]
+        return thumbnail_url
+    except APItimeoutError:
+        return None
+
 
 def get_info(request):
     global version
