@@ -64,7 +64,6 @@ r"https://video.weiler.rocks/",
 r"https://vro.omcat.info/", 
 r"https://y.com.sb/", 
 r"https://yewtu.be/", 
-r"https://youtube.lurkmore.com/", 
 r"https://youtube.mosesmang.com/", 
 r"https://youtube.privacyplz.org/",
 r"https://yt.artemislena.eu/", 
@@ -72,7 +71,6 @@ r"https://yt.cdaut.de/",
 r"https://yt.funami.tech/", 
 r"https://yt.thechangebook.org/",
 r"https://yt.vern.cc/", 
-r"https://yt.yoc.ovh/", 
 r"https://ytb.alexio.tf/" 
 ]
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
