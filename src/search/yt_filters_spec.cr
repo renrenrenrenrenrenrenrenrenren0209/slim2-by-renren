@@ -1,4 +1,4 @@
-require "../../../src//search/filters"
+require "../../../src/search/filters"
 
 require "http/params"
 require "spectator"
