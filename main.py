@@ -325,37 +325,31 @@ def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="
         return redirect("/")
     res = HTMLResponse(requests.get(fr"{url}bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text)
     return res
-@cache(seconds=5)
-def bbsapi_cached(verify, channel):
-    return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(str(int(time.time()*1000)))}&verify={urllib.parse.quote(verify)}&channel={urllib.parse.quote(channel)}", cookies={"yuki":"True"}).text
 
-@app.get("/bbs/api", response_class=HTMLResponse)
-def view_bbs(request: Request, t: str, channel:Union[str, None]="main", verify: Union[str, None] = "false"):
+@cache(seconds=5)
+def bbsapi_cached(verify,channel):
+    return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(str(int(time.time()*1000)))}&verify={urllib.parse.quote(verify)}&channel={urllib.parse.quote(channel)}",cookies={"yuki":"True"}).text
+
+@app.get("/bbs/api",response_class=HTMLResponse)
+def view_bbs(request: Request,t: str,channel:Union[str,None]="main",verify: Union[str,None] = "false"):
     print(fr"{url}bbs/api?t={urllib.parse.quote(t)}&verify={urllib.parse.quote(verify)}&channel={urllib.parse.quote(channel)}")
-    return bbsapi_cached(verify, channel)
+    return bbsapi_cached(verify,channel)
 
 @app.get("/bbs/result")
-def write_bbs(request: Request, name: str = "", message: str = "", seed:Union[str, None] = "", channel:Union[str, None]="main", verify:Union[str, None]="false", yuki: Union[str] = Cookie(None)):
+def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,None] = "",channel:Union[str,None]="main",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None)):
     if not(check_cokie(yuki)):
         return redirect("/")
-    t = requests.get(fr"{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}&info={urllib.parse.quote(get_info(request))}&serververify={get_verifycode()}", cookies={"yuki":"True"}, allow_redirects=False)
+    t = requests.get(fr"{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}&info={urllib.parse.quote(get_info(request))}&serververify={get_verifycode()}",cookies={"yuki":"True"}, allow_redirects=False)
     if t.status_code != 307:
-        
-        match urllib.parse.quote(message):
-            case '/genseeds':
-                return HTMLResponse(t.text + getSource('bbs_3'))
-                
-            case _:
-                return HTMLResponse(t.text + getSource('bbs_1') + getSource('shortcut_help') + getSource('bbs_2'))
-        
+        return HTMLResponse(t.text)
     return redirect(f"/bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}")
 
 @cache(seconds=30)
 def how_cached():
     return requests.get(fr"{url}bbs/how").text
 
-@app.get("/bbs/how", response_class=PlainTextResponse)
-def view_commonds(request: Request, yuki: Union[str] = Cookie(None)):
+@app.get("/bbs/how",response_class=PlainTextResponse)
+def view_commonds(request: Request,yuki: Union[str] = Cookie(None)):
     if not(check_cokie(yuki)):
         return redirect("/")
     return how_cached()
@@ -367,9 +361,9 @@ def home():
 
 
 @app.exception_handler(500)
-def page(request: Request, __):
-    return template("APIwait.html", {"request": request}, status_code=500)
+def page(request: Request,__):
+    return template("APIwait.html",{"request": request},status_code=500)
 
 @app.exception_handler(APItimeoutError)
-def APIwait(request: Request, exception: APItimeoutError):
-    return template("APIwait.html", {"request": request}, status_code=500)
+def APIwait(request: Request,exception: APItimeoutError):
+    return template("APIwait.html",{"request": request},status_code=500)
