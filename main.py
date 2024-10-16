@@ -15,7 +15,7 @@ apis = [
 r"https://inv.bp.projectsegfau.lt/", 
 r"https://inv.nadeko.net/", 
 r"https://inv.odyssey346.dev/", 
-r"https://inv.privacy.com.de/"
+r"https://inv.privacy.com.de/",
 r"https://inv.riverside.rocks/",
 r"https://inv.tux.pizza/",
 r"https://inv.us.projectsegfau.lt/", 
