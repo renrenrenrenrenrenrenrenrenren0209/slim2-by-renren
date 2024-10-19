@@ -101,52 +101,48 @@ def updateList(list, str):
     list.remove(str)
     return list
 
-def apirequest(api_urlpath, api_urls):
+def apicommentsrequest(url):
+    global apicomments
+    global max_time
     starttime = time.time()
-    
-    for api in api_urls:
-        if  time.time() - starttime >= max_time - 1:
+    for api in apicomments:
+        if  time.time() - starttime >= max_time -1:
             break
-                    try:
+        try:
+            res = requests.get(api+url,timeout=max_api_wait_time)
+            if res.status_code == 200 and is_json(res.text):
+                return res.text
+            else:
+                print(f"エラー:{api}")
+                apicomments.append(api)
+                apicomments.remove(api)
+        except:
+            print(f"タイムアウト:{api}")
+            apicomments.append(api)
+            apicomments.remove(api)
+    raise APItimeoutError("APIがタイムアウトしました")
+
+def apirequest(url):
+    global apis
+    global max_time
+    starttime = time.time()
+    for api in apis:
+        if time.time() - starttime >= max_time - 1:
+            break
+        try:
             res = requests.get(api + url, timeout=max_api_wait_time)
             if res.status_code == 200 and is_json(res.text):
                 print(f"成功したAPI: {api}")  
                 return res.text
-        
             else:
                 print(f"エラー: {api}")
-                updateList(api_urls, api)
+                apis.append(api)
+                apis.remove(api)
         except:
             print(f"タイムアウト: {api}")
-            updateList(api_urls, api)
-
-    
+            apis.append(api)
+            apis.remove(api)
     raise APItimeoutError("APIがタイムアウトしました")
-
-def get_info(request):
-    return json.dumps([version, os.environ.get('RENDER_EXTERNAL_URL'), str(request.scope["headers"]), str(request.scope['router'])[39:-2]])
-
-def get_data(videoid):
-    t = json.loads(apirequest(f"/videos/{urllib.parse.quote(videoid)}", invidious_api.videos_api))
-    return [{"id": i["videoId"], "title": i["title"], "authorId": i["authorId"], "author": i["author"]} for i in t["recommendedVideos"]], list(reversed([i["url"] for i in t["formatStreams"]]))[:2], t["descriptionHtml"].replace("\n", "<br>"), t["title"], t["authorId"], t["author"], t["authorThumbnails"][-1]["url"]
-
-def get_search(q, page):
-    t = json.loads(apirequest(f"/search?q={urllib.parse.quote(q)}&page={page}&hl=jp", invidious_api.videos_api))
-
-    def load_search(i):
-        if i["type"] == "video":
-            return {"title": i["title"], "id": i["videoId"], "authorId": i["authorId"], "author": i["author"], "length":str(datetime.timedelta(seconds=i["lengthSeconds"])), "published": i["publishedText"], "type": "video"}
-            
-        elif i["type"] == "playlist":
-            return {"title": i["title"], "id": i["playlistId"], "thumbnail": i["videos"][0]["videoId"], "count": i["videoCount"], "type": "playlist"}
-            
-        elif i["authorThumbnails"][-1]["url"].startswith("https"):
-            return {"author": i["author"], "id": i["authorId"], "thumbnail": i["authorThumbnails"][-1]["url"], "type": "channel"}
-            
-        else:
-            return {"author": i["author"], "id": i["authorId"], "thumbnail": f"https://{i['authorThumbnails'][-1]['url']}", "type": "channel"}
-    
-    return [load_search(i) for i in t]
 
 def apichannelrequest(url):
     global apichannels
@@ -169,7 +165,6 @@ def apichannelrequest(url):
             apichannels.append(api)
             apichannels.remove(api)
     raise APItimeoutError("APIがタイムアウトしました")
-  
 def get_playlist(listid, page):
     t = json.loads(apirequest(f"/playlists/{urllib.parse.quote(listid)}?page={urllib.parse.quote(page)}", invidious_api.videos_api))["videos"]
     return [{"title": i["title"], "id": i["videoId"], "authorId": i["authorId"], "author": i["author"], "type": "video"} for i in t]
