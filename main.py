@@ -7,8 +7,10 @@ import random
 import os
 import subprocess
 from cache import cache
-max_api_wait_time = 3
+max_api_wait_time = (3.0, 1.5)
+
 max_time = 10
+
 apis = [
   r"https://clips.im.allmendenetz.de/", 
 
