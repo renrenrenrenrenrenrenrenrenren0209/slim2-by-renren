@@ -11,6 +11,7 @@ from cache import cache
 
 max_api_wait_time = 3
 max_time = 4
+api = [
   r"https://clips.im.allmendenetz.de/", 
   r"https://inv.bp.projectsegfau.lt/",
   r"https://inv.nadeko.net/",
