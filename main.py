@@ -107,18 +107,12 @@ def apirequest(api_urlpath, api_urls):
     for api in api_urls:
         if  time.time() - starttime >= max_time - 1:
             break
-            
-        try:
-            res = requests.get(api + 'api/v1' + api_urlpath, timeout=max_api_wait_time)
-            if res.status_code == requests.codes.ok and is_json(res.text):
-                if api_urlpath.startswith('/videos/'):
-                    video_res = requests.get(json.loads(res.text)['formatStreams'][0]['url'], timeout=(3.0, 0.5))
-                    if not video_res.headers['Content-Type'] == 'video/mp4':
-                        print(f"動画取得エラー: {api}")
-                        updateList(api_urls, api)
-                        continue
+                    try:
+            res = requests.get(api + url, timeout=max_api_wait_time)
+            if res.status_code == 200 and is_json(res.text):
                 print(f"成功したAPI: {api}")  
                 return res.text
+        
             else:
                 print(f"エラー: {api}")
                 updateList(api_urls, api)
@@ -154,14 +148,28 @@ def get_search(q, page):
     
     return [load_search(i) for i in t]
 
-def get_channel(channelid):
-    t = json.loads(apirequest(f"/channels/{urllib.parse.quote(channelid)}", invidious_api.channels_api))
-    if t["latestVideos"] == []:
-        print("APIがチャンネルを返しませんでした")
-        apichannels = updateList(apichannels, apichannels[0])
-        raise APItimeoutError("APIがチャンネルを返しませんでした")
-    return [[{"title": i["title"], "id": i["videoId"], "authorId": t["authorId"], "author": t["author"], "published": i["publishedText"], "type":"video"} for i in t["latestVideos"]], {"channelname": t["author"], "channelicon": t["authorThumbnails"][-1]["url"], "channelprofile": t["descriptionHtml"]}]
-
+def apichannelrequest(url):
+    global apichannels
+    global max_time
+    starttime = time.time()
+    for api in apichannels:
+        if time.time() - starttime >= max_time - 1:
+            break
+        try:
+            res = requests.get(api + url, timeout=max_api_wait_time)
+            if res.status_code == 200 and is_json(res.text):
+                print(f"成功したAPI: {api}")  
+                return res.text
+            else:
+                print(f"エラー: {api}")
+                apichannels.append(api)
+                apichannels.remove(api)
+        except:
+            print(f"タイムアウト: {api}")
+            apichannels.append(api)
+            apichannels.remove(api)
+    raise APItimeoutError("APIがタイムアウトしました")
+  
 def get_playlist(listid, page):
     t = json.loads(apirequest(f"/playlists/{urllib.parse.quote(listid)}?page={urllib.parse.quote(page)}", invidious_api.videos_api))["videos"]
     return [{"title": i["title"], "id": i["videoId"], "authorId": i["authorId"], "author": i["author"], "type": "video"} for i in t]
